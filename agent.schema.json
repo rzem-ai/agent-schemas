@@ -3,6 +3,14 @@
   "title": "agentd bundle config",
   "type": "object",
   "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "URL of this schema. Stripped before validation."
+    },
+    "extends": {
+      "type": "string",
+      "description": "Path to a config this one extends, resolved relative to this file. Merged underneath: objects key by key, scalars and arrays replaced. Prefix an array key with \"+\" to append instead."
+    },
     "name": {
       "type": "string"
     },
