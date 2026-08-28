@@ -1,0 +1,742 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "agentd bundle config",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "options": {
+      "type": "object",
+      "properties": {
+        "hooks": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "enum": [
+              "PreToolUse",
+              "PostToolUse",
+              "PostToolUseFailure",
+              "PostToolBatch",
+              "UserPromptSubmit",
+              "UserPromptExpansion",
+              "MessageDisplay",
+              "Stop",
+              "StopFailure",
+              "SubagentStart",
+              "SubagentStop",
+              "PreCompact",
+              "PostCompact",
+              "PermissionRequest",
+              "PermissionDenied",
+              "SessionStart",
+              "SessionEnd",
+              "Notification",
+              "Setup",
+              "TeammateIdle",
+              "TaskCreated",
+              "TaskCompleted",
+              "Elicitation",
+              "ElicitationResult",
+              "ConfigChange",
+              "InstructionsLoaded",
+              "WorktreeCreate",
+              "WorktreeRemove",
+              "CwdChanged",
+              "FileChanged",
+              "DirectoryAdded"
+            ]
+          },
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "matcher": {
+                  "type": "string"
+                },
+                "timeout": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                "handlers": {
+                  "minItems": 1,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              },
+              "required": [
+                "handlers"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "mcpServers": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string"
+          },
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "object",
+                "properties": {},
+                "additionalProperties": {}
+              }
+            ]
+          }
+        },
+        "systemPrompt": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "preset"
+                },
+                "preset": {
+                  "type": "string",
+                  "const": "claude_code"
+                },
+                "append": {
+                  "type": "string"
+                },
+                "excludeDynamicSections": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "type",
+                "preset"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "env": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string"
+          },
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "canUseTool": {
+          "type": "string"
+        },
+        "stderr": {
+          "type": "string"
+        },
+        "onElicitation": {
+          "type": "string"
+        },
+        "sessionStore": {
+          "type": "string"
+        },
+        "spawnClaudeCodeProcess": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "runtime": {
+      "type": "object",
+      "properties": {
+        "envFile": {
+          "type": "string"
+        },
+        "env": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string"
+          },
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "log": {
+          "type": "object",
+          "properties": {
+            "level": {
+              "type": "string",
+              "enum": [
+                "debug",
+                "info",
+                "warn",
+                "error",
+                "silent"
+              ]
+            },
+            "format": {
+              "type": "string",
+              "enum": [
+                "pretty",
+                "json"
+              ]
+            },
+            "file": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "telemetry": {
+          "type": "object",
+          "properties": {
+            "endpoint": {
+              "type": "string"
+            },
+            "serviceName": {
+              "type": "string"
+            },
+            "headers": {
+              "type": "object",
+              "propertyNames": {
+                "type": "string"
+              },
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "spans": {
+              "type": "boolean"
+            },
+            "shutdownTimeoutMs": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "maximum": 9007199254740991
+            }
+          },
+          "additionalProperties": false
+        },
+        "transcripts": {
+          "type": "object",
+          "properties": {
+            "dir": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "dir"
+          ],
+          "additionalProperties": false
+        },
+        "sessions": {
+          "type": "object",
+          "properties": {
+            "dir": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "dir"
+          ],
+          "additionalProperties": false
+        },
+        "budget": {
+          "type": "object",
+          "properties": {
+            "usd": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "turns": {
+              "type": "integer",
+              "exclusiveMinimum": 0,
+              "maximum": 9007199254740991
+            }
+          },
+          "additionalProperties": false
+        },
+        "health": {
+          "type": "object",
+          "properties": {
+            "port": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 65535
+            },
+            "host": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "port"
+          ],
+          "additionalProperties": false
+        },
+        "hooks": {
+          "type": "object",
+          "properties": {
+            "failClosed": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": false
+        },
+        "a2a": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string"
+          },
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "minLength": 1
+              },
+              "description": {
+                "type": "string"
+              },
+              "timeoutMs": {
+                "type": "integer",
+                "exclusiveMinimum": 0,
+                "maximum": 9007199254740991
+              },
+              "headers": {
+                "type": "object",
+                "propertyNames": {
+                  "type": "string"
+                },
+                "additionalProperties": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "url"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "mcp": {
+          "type": "object",
+          "properties": {
+            "toolName": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "http": {
+              "type": "object",
+              "properties": {
+                "port": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 65535
+                },
+                "host": {
+                  "type": "string"
+                },
+                "allowedHosts": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "token": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "port"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "profiles": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "options": {
+            "type": "object",
+            "properties": {
+              "hooks": {
+                "type": "object",
+                "propertyNames": {
+                  "type": "string",
+                  "enum": [
+                    "PreToolUse",
+                    "PostToolUse",
+                    "PostToolUseFailure",
+                    "PostToolBatch",
+                    "UserPromptSubmit",
+                    "UserPromptExpansion",
+                    "MessageDisplay",
+                    "Stop",
+                    "StopFailure",
+                    "SubagentStart",
+                    "SubagentStop",
+                    "PreCompact",
+                    "PostCompact",
+                    "PermissionRequest",
+                    "PermissionDenied",
+                    "SessionStart",
+                    "SessionEnd",
+                    "Notification",
+                    "Setup",
+                    "TeammateIdle",
+                    "TaskCreated",
+                    "TaskCompleted",
+                    "Elicitation",
+                    "ElicitationResult",
+                    "ConfigChange",
+                    "InstructionsLoaded",
+                    "WorktreeCreate",
+                    "WorktreeRemove",
+                    "CwdChanged",
+                    "FileChanged",
+                    "DirectoryAdded"
+                  ]
+                },
+                "additionalProperties": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "matcher": {
+                        "type": "string"
+                      },
+                      "timeout": {
+                        "type": "number",
+                        "exclusiveMinimum": 0
+                      },
+                      "handlers": {
+                        "minItems": 1,
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      }
+                    },
+                    "required": [
+                      "handlers"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "mcpServers": {
+                "type": "object",
+                "propertyNames": {
+                  "type": "string"
+                },
+                "additionalProperties": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    {
+                      "type": "object",
+                      "properties": {},
+                      "additionalProperties": {}
+                    }
+                  ]
+                }
+              },
+              "systemPrompt": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "const": "preset"
+                      },
+                      "preset": {
+                        "type": "string",
+                        "const": "claude_code"
+                      },
+                      "append": {
+                        "type": "string"
+                      },
+                      "excludeDynamicSections": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "preset"
+                    ],
+                    "additionalProperties": false
+                  }
+                ]
+              },
+              "env": {
+                "type": "object",
+                "propertyNames": {
+                  "type": "string"
+                },
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "canUseTool": {
+                "type": "string"
+              },
+              "stderr": {
+                "type": "string"
+              },
+              "onElicitation": {
+                "type": "string"
+              },
+              "sessionStore": {
+                "type": "string"
+              },
+              "spawnClaudeCodeProcess": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": {}
+          },
+          "runtime": {
+            "type": "object",
+            "properties": {
+              "envFile": {
+                "type": "string"
+              },
+              "env": {
+                "type": "object",
+                "propertyNames": {
+                  "type": "string"
+                },
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "log": {
+                "type": "object",
+                "properties": {
+                  "level": {
+                    "type": "string",
+                    "enum": [
+                      "debug",
+                      "info",
+                      "warn",
+                      "error",
+                      "silent"
+                    ]
+                  },
+                  "format": {
+                    "type": "string",
+                    "enum": [
+                      "pretty",
+                      "json"
+                    ]
+                  },
+                  "file": {
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "telemetry": {
+                "type": "object",
+                "properties": {
+                  "endpoint": {
+                    "type": "string"
+                  },
+                  "serviceName": {
+                    "type": "string"
+                  },
+                  "headers": {
+                    "type": "object",
+                    "propertyNames": {
+                      "type": "string"
+                    },
+                    "additionalProperties": {
+                      "type": "string"
+                    }
+                  },
+                  "spans": {
+                    "type": "boolean"
+                  },
+                  "shutdownTimeoutMs": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "additionalProperties": false
+              },
+              "transcripts": {
+                "type": "object",
+                "properties": {
+                  "dir": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "dir"
+                ],
+                "additionalProperties": false
+              },
+              "sessions": {
+                "type": "object",
+                "properties": {
+                  "dir": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "dir"
+                ],
+                "additionalProperties": false
+              },
+              "budget": {
+                "type": "object",
+                "properties": {
+                  "usd": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                  },
+                  "turns": {
+                    "type": "integer",
+                    "exclusiveMinimum": 0,
+                    "maximum": 9007199254740991
+                  }
+                },
+                "additionalProperties": false
+              },
+              "health": {
+                "type": "object",
+                "properties": {
+                  "port": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 65535
+                  },
+                  "host": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "port"
+                ],
+                "additionalProperties": false
+              },
+              "hooks": {
+                "type": "object",
+                "properties": {
+                  "failClosed": {
+                    "type": "boolean"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "a2a": {
+                "type": "object",
+                "propertyNames": {
+                  "type": "string"
+                },
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "timeoutMs": {
+                      "type": "integer",
+                      "exclusiveMinimum": 0,
+                      "maximum": 9007199254740991
+                    },
+                    "headers": {
+                      "type": "object",
+                      "propertyNames": {
+                        "type": "string"
+                      },
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "url"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "mcp": {
+                "type": "object",
+                "properties": {
+                  "toolName": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "http": {
+                    "type": "object",
+                    "properties": {
+                      "port": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 65535
+                      },
+                      "host": {
+                        "type": "string"
+                      },
+                      "allowedHosts": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "token": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "port"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
