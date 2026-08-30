@@ -133,6 +133,157 @@
             }
           ]
         },
+        "tools": {
+          "description": "Built-in tools the model can see. [] disables all built-ins; the preset object restores the full Claude Code set. MCP tools come from mcpServers regardless.",
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "enum": [
+                      "Bash",
+                      "CronCreate",
+                      "CronDelete",
+                      "CronList",
+                      "DesignSync",
+                      "Edit",
+                      "EnterWorktree",
+                      "ExitWorktree",
+                      "Glob",
+                      "Grep",
+                      "ListAgents",
+                      "Monitor",
+                      "NotebookEdit",
+                      "PushNotification",
+                      "Read",
+                      "ReportFindings",
+                      "ScheduleWakeup",
+                      "SendMessage",
+                      "Skill",
+                      "Task",
+                      "TaskOutput",
+                      "TaskStop",
+                      "ToolSearch",
+                      "WebFetch",
+                      "WebSearch",
+                      "Workflow",
+                      "Write"
+                    ]
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "preset"
+                },
+                "preset": {
+                  "type": "string",
+                  "const": "claude_code"
+                }
+              },
+              "required": [
+                "type",
+                "preset"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "allowedTools": {
+          "description": "Tools that run without a permission prompt. Does not restrict which tools exist — use `tools` for that. MCP: mcp__<server>__<tool>, or mcp__<server> for all of a server.",
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "Bash",
+                  "CronCreate",
+                  "CronDelete",
+                  "CronList",
+                  "DesignSync",
+                  "Edit",
+                  "EnterWorktree",
+                  "ExitWorktree",
+                  "Glob",
+                  "Grep",
+                  "ListAgents",
+                  "Monitor",
+                  "NotebookEdit",
+                  "PushNotification",
+                  "Read",
+                  "ReportFindings",
+                  "ScheduleWakeup",
+                  "SendMessage",
+                  "Skill",
+                  "Task",
+                  "TaskOutput",
+                  "TaskStop",
+                  "ToolSearch",
+                  "WebFetch",
+                  "WebSearch",
+                  "Workflow",
+                  "Write"
+                ]
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "disallowedTools": {
+          "description": "Tools removed from the model's context entirely. Subtracts from `tools`.",
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "Bash",
+                  "CronCreate",
+                  "CronDelete",
+                  "CronList",
+                  "DesignSync",
+                  "Edit",
+                  "EnterWorktree",
+                  "ExitWorktree",
+                  "Glob",
+                  "Grep",
+                  "ListAgents",
+                  "Monitor",
+                  "NotebookEdit",
+                  "PushNotification",
+                  "Read",
+                  "ReportFindings",
+                  "ScheduleWakeup",
+                  "SendMessage",
+                  "Skill",
+                  "Task",
+                  "TaskOutput",
+                  "TaskStop",
+                  "ToolSearch",
+                  "WebFetch",
+                  "WebSearch",
+                  "Workflow",
+                  "Write"
+                ]
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+        },
         "env": {
           "type": "object",
           "propertyNames": {
@@ -451,6 +602,12 @@
             },
             "agent": {
               "type": "string"
+            },
+            "role": {
+              "type": "string"
+            },
+            "token": {
+              "type": "string"
             }
           },
           "required": [
@@ -628,6 +785,157 @@
                     "additionalProperties": false
                   }
                 ]
+              },
+              "tools": {
+                "description": "Built-in tools the model can see. [] disables all built-ins; the preset object restores the full Claude Code set. MCP tools come from mcpServers regardless.",
+                "anyOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [
+                            "Bash",
+                            "CronCreate",
+                            "CronDelete",
+                            "CronList",
+                            "DesignSync",
+                            "Edit",
+                            "EnterWorktree",
+                            "ExitWorktree",
+                            "Glob",
+                            "Grep",
+                            "ListAgents",
+                            "Monitor",
+                            "NotebookEdit",
+                            "PushNotification",
+                            "Read",
+                            "ReportFindings",
+                            "ScheduleWakeup",
+                            "SendMessage",
+                            "Skill",
+                            "Task",
+                            "TaskOutput",
+                            "TaskStop",
+                            "ToolSearch",
+                            "WebFetch",
+                            "WebSearch",
+                            "Workflow",
+                            "Write"
+                          ]
+                        },
+                        {
+                          "type": "string"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "const": "preset"
+                      },
+                      "preset": {
+                        "type": "string",
+                        "const": "claude_code"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "preset"
+                    ],
+                    "additionalProperties": false
+                  }
+                ]
+              },
+              "allowedTools": {
+                "description": "Tools that run without a permission prompt. Does not restrict which tools exist — use `tools` for that. MCP: mcp__<server>__<tool>, or mcp__<server> for all of a server.",
+                "type": "array",
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "Bash",
+                        "CronCreate",
+                        "CronDelete",
+                        "CronList",
+                        "DesignSync",
+                        "Edit",
+                        "EnterWorktree",
+                        "ExitWorktree",
+                        "Glob",
+                        "Grep",
+                        "ListAgents",
+                        "Monitor",
+                        "NotebookEdit",
+                        "PushNotification",
+                        "Read",
+                        "ReportFindings",
+                        "ScheduleWakeup",
+                        "SendMessage",
+                        "Skill",
+                        "Task",
+                        "TaskOutput",
+                        "TaskStop",
+                        "ToolSearch",
+                        "WebFetch",
+                        "WebSearch",
+                        "Workflow",
+                        "Write"
+                      ]
+                    },
+                    {
+                      "type": "string"
+                    }
+                  ]
+                }
+              },
+              "disallowedTools": {
+                "description": "Tools removed from the model's context entirely. Subtracts from `tools`.",
+                "type": "array",
+                "items": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "Bash",
+                        "CronCreate",
+                        "CronDelete",
+                        "CronList",
+                        "DesignSync",
+                        "Edit",
+                        "EnterWorktree",
+                        "ExitWorktree",
+                        "Glob",
+                        "Grep",
+                        "ListAgents",
+                        "Monitor",
+                        "NotebookEdit",
+                        "PushNotification",
+                        "Read",
+                        "ReportFindings",
+                        "ScheduleWakeup",
+                        "SendMessage",
+                        "Skill",
+                        "Task",
+                        "TaskOutput",
+                        "TaskStop",
+                        "ToolSearch",
+                        "WebFetch",
+                        "WebSearch",
+                        "Workflow",
+                        "Write"
+                      ]
+                    },
+                    {
+                      "type": "string"
+                    }
+                  ]
+                }
               },
               "env": {
                 "type": "object",
@@ -946,6 +1254,12 @@
                     "minLength": 1
                   },
                   "agent": {
+                    "type": "string"
+                  },
+                  "role": {
+                    "type": "string"
+                  },
+                  "token": {
                     "type": "string"
                   }
                 },
