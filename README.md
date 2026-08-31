@@ -1,6 +1,6 @@
 # agent-schemas
 
-JSON Schemas for rzem-ai agent configuration, published so a bundle can point
+JSON Schemas for rzem-ai agent configuration, published so an agent can point
 `$schema` at a stable URL and get completion and validation in any editor that
 speaks JSON Schema.
 
@@ -8,11 +8,11 @@ speaks JSON Schema.
 
 | File | Describes |
 | --- | --- |
-| [`agent.schema.json`](agent.schema.json) | An `agentd` bundle's `agent.json` — the `options` block (a verbatim mirror of the Claude Agent SDK's `Options`) and the `runtime` block (logging, telemetry, transcripts, sessions, budgets, health, MCP surface, A2A peers). |
+| [`agent.schema.json`](agent.schema.json) | An `agentd` agent's `agent.json` — the `options` block (a verbatim mirror of the Claude Agent SDK's `Options`) and the `runtime` block (logging, telemetry, transcripts, sessions, budgets, health, MCP surface, A2A peers). |
 
 ## Using it
 
-Add `$schema` as the first key of a bundle's `agent.json`:
+Add `$schema` as the first key of an agent's `agent.json`:
 
 ```jsonc
 {
